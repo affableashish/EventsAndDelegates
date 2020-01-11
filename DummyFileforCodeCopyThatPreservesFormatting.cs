@@ -76,3 +76,32 @@ public class Derived : Base
   	 Console.WriteLine("Some Other method in Derived");
   }
 }
+
+
+using System;
+					
+public class Program
+{
+	public static void Main()
+	{
+		Base b = new Derived();
+		Derived d = new Derived();
+		
+		Console.WriteLine(b.Foo()); // output 5
+		Console.WriteLine(b.Bar()); // output 1 (Exposes Derived method even if cast it to base)
+		Console.WriteLine(d.Foo()); // output 1
+		Console.WriteLine(d.Bar()); // output 1
+
+		Console.WriteLine(b.Foo()); // output 5 <<<-- shadow. 
+		//The whole point here is that if you want to use base class method instead of inherited, then use 'new' keyword on the derived class so that it can be hidden.
+		Console.WriteLine(b.Bar()); // output 1
+	}
+}
+class Base {
+   public int Foo(){ return 5;}
+   public virtual int Bar(){return 5;}
+}
+class Derived : Base{
+   public new int Foo() { return 1;}     //shadow
+   public override int Bar() {return 1;} //override
+}
